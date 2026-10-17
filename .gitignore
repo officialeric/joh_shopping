@@ -1,0 +1,3 @@
+# Local notes and secrets (API tokens etc.); never commit
+/.data
+.DS_Store

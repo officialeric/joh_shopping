@@ -20,10 +20,16 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Dashboard and report aggregates. Same shapes as the frontend's
- * lib/api/analytics.ts. Cancelled orders never count towards sales.
+ * lib/api/analytics.ts. Cancelled orders never count towards sales and
+ * revenue is net of refunds (e.g. an approved return).
  */
 class AnalyticsService
 {
+    /**
+     * An order's total minus whatever was refunded on its payments.
+     */
+    private const NET_TOTAL = '(orders.total - COALESCE((SELECT SUM(payments.refunded) FROM payments WHERE payments.order_id = orders.id), 0))';
+
     /**
      * @return array<string, mixed>
      */
@@ -46,7 +52,7 @@ class AnalyticsService
             'customers' => ['value' => $customers, 'delta' => self::pct($customers, $previousCustomers)],
             'series' => $this->series($end, $days),
             'byPayment' => $this->validOrders($from, $end)
-                ->selectRaw('payment_method, SUM(total) as amount')
+                ->selectRaw('payment_method, SUM('.self::NET_TOTAL.') as amount')
                 ->groupBy('payment_method')
                 ->orderByDesc('amount')
                 ->get()
@@ -86,6 +92,7 @@ class AnalyticsService
 
         $refunds = (int) DB::table('payments')
             ->join('orders', 'orders.id', '=', 'payments.order_id')
+            ->where('orders.status', '!=', 'cancelled')
             ->where('orders.created_at', '>', $from)
             ->where('orders.created_at', '<=', $end)
             ->sum('payments.refunded');
@@ -107,7 +114,7 @@ class AnalyticsService
             ->pluck('revenue', 'product_condition');
 
         $customers = $this->validOrders($from, $end)
-            ->selectRaw("COALESCE(user_id, 'guest') as customer_key, MAX(customer_name) as name, COUNT(*) as orders_count, SUM(total) as revenue")
+            ->selectRaw("COALESCE(user_id, 'guest') as customer_key, MAX(customer_name) as name, COUNT(*) as orders_count, SUM(".self::NET_TOTAL.') as revenue')
             ->groupBy('customer_key')
             ->orderByDesc('revenue')
             ->limit(8)
@@ -172,7 +179,7 @@ class AnalyticsService
      */
     private function totals(CarbonImmutable $from, CarbonImmutable $to): array
     {
-        $row = $this->validOrders($from, $to)->selectRaw('COUNT(*) as orders_count, SUM(total) as revenue')->first();
+        $row = $this->validOrders($from, $to)->selectRaw('COUNT(*) as orders_count, SUM('.self::NET_TOTAL.') as revenue')->first();
 
         return ['revenue' => (int) $row->revenue, 'orders' => (int) $row->orders_count];
     }
@@ -188,7 +195,7 @@ class AnalyticsService
         $endTs = $end->getTimestamp();
 
         $this->validOrders($end->subDays($days), $end)
-            ->select(['created_at', 'total'])
+            ->selectRaw('created_at, '.self::NET_TOTAL.' as total')
             ->orderBy('created_at')
             ->get()
             ->each(function (object $row) use (&$buckets, $endTs, $days): void {

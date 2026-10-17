@@ -5,12 +5,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import type { Banner } from "@/types";
-import { ProductArt } from "@/components/brand/product-art";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { useShop } from "@/lib/data/shop-context";
 import { useT } from "@/lib/i18n/client";
 import { cn, formatTZS } from "@/lib/utils";
+import { BannerVisual } from "./banner-visual";
 
 const themes = {
   dark: {
@@ -53,50 +53,41 @@ export function HeroCarousel({ banners }: { banners: Banner[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-[28px] dark:ring-1 dark:ring-white/10" ref={emblaRef}>
+      <div className="overflow-hidden rounded-3xl sm:rounded-[28px] dark:ring-1 dark:ring-white/10" ref={emblaRef}>
         <div className="flex">
           {banners.map((b, i) => {
             const theme = themes[b.theme];
             const product = b.productId ? getProduct(b.productId) : undefined;
             return (
               <div key={b.id} className="min-w-0 flex-[0_0_100%]">
-                <div className={cn("relative grid h-full min-h-[480px] overflow-hidden md:min-h-[520px] md:grid-cols-2", theme.wrap)}>
+                {/* Phones: a short card with the picture beside the text, so products show sooner. */}
+                <div className={cn("relative grid h-full min-h-[208px] grid-cols-[1.35fr_1fr] overflow-hidden sm:min-h-[400px] md:min-h-[520px] md:grid-cols-2", theme.wrap)}>
                   <div className={cn("absolute inset-0", theme.glow)} />
-                  <div className="relative z-10 flex flex-col justify-center gap-5 p-8 sm:p-12 lg:p-16">
-                    <p className={cn("text-xs font-semibold tracking-[0.2em] uppercase", theme.eyebrow)}>{t.shop.home.heroEyebrow}</p>
-                    <h1 className="text-4xl leading-[1.05] font-semibold text-balance sm:text-5xl lg:text-6xl">{b.title[locale]}</h1>
-                    <p className={cn("max-w-md text-base sm:text-lg", theme.sub)}>{b.subtitle[locale]}</p>
+                  <div className="relative z-10 flex flex-col justify-center gap-2.5 p-5 pb-9 sm:gap-5 sm:p-12 lg:p-16">
+                    <p className={cn("hidden text-xs font-semibold tracking-[0.2em] uppercase sm:block", theme.eyebrow)}>{t.shop.home.heroEyebrow}</p>
+                    <h2 className="text-2xl leading-[1.08] font-semibold text-balance sm:text-5xl lg:text-6xl">{b.title[locale]}</h2>
+                    <p className={cn("line-clamp-2 text-xs sm:line-clamp-none sm:max-w-md sm:text-lg", theme.sub)}>{b.subtitle[locale]}</p>
                     {product && (
-                      <p className="text-sm">
+                      <p className="text-xs sm:text-sm">
                         <span className={theme.sub}>{t.common.product.from} </span>
-                        <span className="font-display text-xl font-semibold">{formatTZS(product.price)}</span>
+                        <span className="font-display text-base font-semibold sm:text-xl">{formatTZS(product.price)}</span>
                       </p>
                     )}
                     <div className="flex flex-wrap gap-3 pt-1">
-                      <Button size="lg" variant={theme.btn} asChild>
+                      <Button size="sm" variant={theme.btn} className="sm:h-12 sm:px-7 sm:text-[15px]" asChild>
                         <Link href={b.href}>
                           {b.cta[locale]}
                           <ArrowRight />
                         </Link>
                       </Button>
-                      <Button
-                        size="lg"
-                        variant="ghost"
-                        className={b.theme === "light" ? "" : "text-white hover:bg-white/10"}
-                        asChild
-                      >
+                      <Button size="lg" variant="ghost" className={cn("hidden sm:inline-flex", b.theme === "light" ? "" : "text-white hover:bg-white/10")} asChild>
                         <Link href="/products">{t.common.actions.viewAll}</Link>
                       </Button>
                     </div>
                   </div>
-                  <div className="relative flex items-center justify-center pb-10 md:pb-0">
-                    <div
-                      className={cn(
-                        "aspect-square w-[78%] max-w-[440px] transition-all duration-1000",
-                        index === i ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
-                      )}
-                    >
-                      {product && <ProductArt kind={product.art.kind} camera={product.art.camera} color={product.colors[0]?.hex} label={product.name} />}
+                  <div className="relative flex items-center justify-center">
+                    <div className={cn("aspect-square w-[92%] max-w-[440px] transition-all duration-1000 sm:w-[78%]", index === i ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0")}>
+                      <BannerVisual banner={b} />
                     </div>
                   </div>
                 </div>
@@ -106,7 +97,7 @@ export function HeroCarousel({ banners }: { banners: Banner[] }) {
         </div>
       </div>
 
-      <div className="absolute bottom-5 left-8 z-10 flex items-center gap-2 sm:left-12 lg:left-16">
+      <div className="absolute bottom-3.5 left-5 z-10 flex items-center gap-2 sm:bottom-5 sm:left-12 lg:left-16">
         {banners.map((b, i) => (
           <button
             key={b.id}

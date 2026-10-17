@@ -7053,6 +7053,1072 @@
     "description": "Health with Galaxy AI, dual-frequency GPS, sleep coaching"
    },
    "createdAt": "2026-07-25T09:00:00Z"
+  },
+  {
+   "id": "a-baseus10k",
+   "slug": "baseus-magnetic-power-bank-10000",
+   "name": "Baseus Magnetic Power Bank 10,000mAh 20W",
+   "brandId": "b-baseus",
+   "categoryId": "c-power",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Inashika nyuma ya iPhone kwa sumaku, chaji ya 20W bila waya",
+    "en": "Snaps onto the back of your iPhone, 20W wired and wireless"
+   },
+   "description": {
+    "sw": "Inashika nyuma ya iPhone kwa sumaku, chaji ya 20W bila waya. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Snaps onto the back of your iPhone, 20W wired and wireless. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Sumaku (MagSafe)",
+     "en": "Magnetic (MagSafe)"
+    },
+    {
+     "sw": "20W PD",
+     "en": "20W PD"
+    },
+    {
+     "sw": "Nyembamba",
+     "en": "Slim"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Power bank",
+     "en": "Power bank"
+    },
+    {
+     "sw": "Waya wa USB-C",
+     "en": "USB-C cable"
+    }
+   ],
+   "price": 89000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeupe",
+      "en": "White"
+     },
+     "hex": "#f5f5f3"
+    },
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-baseus10k-v0",
+     "sku": "BASEUSMAGNETICPOWERBANK10000-0",
+     "color": "#f5f5f3",
+     "price": 89000,
+     "stock": 14,
+     "compareAtPrice": 99000
+    },
+    {
+     "id": "a-baseus10k-v1",
+     "sku": "BASEUSMAGNETICPOWERBANK10000-1",
+     "color": "#1e1f22",
+     "price": 89000,
+     "stock": 9,
+     "compareAtPrice": 99000
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Uwezo",
+        "en": "Capacity"
+       },
+       "value": "10,000 mAh"
+      },
+      {
+       "label": {
+        "sw": "Nguvu",
+        "en": "Output"
+       },
+       "value": "20W wired / 7.5W wireless"
+      },
+      {
+       "label": {
+        "sw": "Uzito",
+        "en": "Weight"
+       },
+       "value": "180 g"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 12,
+   "tags": [
+    "new",
+    "trending"
+   ],
+   "images": [],
+   "art": {
+    "kind": "powerbank"
+   },
+   "compatibleWith": [
+    "p-ip16pm",
+    "p-ip15-used"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Baseus Magnetic Power Bank 10,000mAh 20W | Joh Shopping",
+    "description": "Snaps onto the back of your iPhone, 20W wired and wireless"
+   },
+   "createdAt": "2026-10-05T09:00:00Z",
+   "compareAtPrice": 99000
+  },
+  {
+   "id": "a-oraimo10k",
+   "slug": "oraimo-traveler-10000-slim",
+   "name": "Oraimo Traveler Slim 10,000mAh 22.5W",
+   "brandId": "b-oraimo",
+   "categoryId": "c-power",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Power bank nyembamba ya mfukoni yenye chaji ya haraka 22.5W",
+    "en": "Pocket-slim power bank with 22.5W fast charging"
+   },
+   "description": {
+    "sw": "Power bank nyembamba ya mfukoni yenye chaji ya haraka 22.5W. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Pocket-slim power bank with 22.5W fast charging. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "22.5W chaji ya haraka",
+     "en": "22.5W fast charge"
+    },
+    {
+     "sw": "Port 2",
+     "en": "2 ports"
+    },
+    {
+     "sw": "Taa ya kiwango cha chaji",
+     "en": "Battery level display"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Power bank",
+     "en": "Power bank"
+    },
+    {
+     "sw": "Waya wa USB-C",
+     "en": "USB-C cable"
+    }
+   ],
+   "price": 45000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    },
+    {
+     "name": {
+      "sw": "Bluu",
+      "en": "Blue"
+     },
+     "hex": "#3e5a80"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-oraimo10k-v0",
+     "sku": "ORAIMOTRAVELER10000SLIM-0",
+     "color": "#1e1f22",
+     "price": 45000,
+     "stock": 30
+    },
+    {
+     "id": "a-oraimo10k-v1",
+     "sku": "ORAIMOTRAVELER10000SLIM-1",
+     "color": "#3e5a80",
+     "price": 45000,
+     "stock": 22
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Uwezo",
+        "en": "Capacity"
+       },
+       "value": "10,000 mAh"
+      },
+      {
+       "label": {
+        "sw": "Nguvu",
+        "en": "Output"
+       },
+       "value": "22.5W max"
+      },
+      {
+       "label": {
+        "sw": "Uzito",
+        "en": "Weight"
+       },
+       "value": "210 g"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 12,
+   "tags": [
+    "bestseller",
+    "deal"
+   ],
+   "images": [],
+   "art": {
+    "kind": "powerbank"
+   },
+   "compatibleWith": [],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Oraimo Traveler Slim 10,000mAh 22.5W | Joh Shopping",
+    "description": "Pocket-slim power bank with 22.5W fast charging"
+   },
+   "createdAt": "2026-09-20T09:00:00Z"
+  },
+  {
+   "id": "a-case16",
+   "slug": "iphone-16-clear-case-magsafe",
+   "name": "iPhone 16 Pro Max Clear Case with MagSafe",
+   "brandId": "b-apple",
+   "categoryId": "c-cases",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Kava ya uwazi isiyogeuka njano, yenye MagSafe",
+    "en": "Crystal-clear case that resists yellowing, with MagSafe"
+   },
+   "description": {
+    "sw": "Kava ya uwazi isiyogeuka njano, yenye MagSafe. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Crystal-clear case that resists yellowing, with MagSafe. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "MagSafe",
+     "en": "MagSafe"
+    },
+    {
+     "sw": "Haigeuki njano",
+     "en": "Anti-yellowing"
+    },
+    {
+     "sw": "Kinga ya kuanguka",
+     "en": "Drop protection"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Kava moja",
+     "en": "1 case"
+    }
+   ],
+   "price": 85000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Uwazi",
+      "en": "Clear"
+     },
+     "hex": "#e6eef3"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-case16-v0",
+     "sku": "IPHONE16CLEARCASEMAGSAFE-0",
+     "color": "#e6eef3",
+     "price": 85000,
+     "stock": 18
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Nyenzo",
+        "en": "Material"
+       },
+       "value": "Polycarbonate + TPU"
+      },
+      {
+       "label": {
+        "sw": "Inafaa",
+        "en": "Fits"
+       },
+       "value": "iPhone 16 Pro Max"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 6,
+   "tags": [
+    "new"
+   ],
+   "images": [],
+   "art": {
+    "kind": "case"
+   },
+   "compatibleWith": [
+    "p-ip16pm"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "iPhone 16 Pro Max Clear Case with MagSafe | Joh Shopping",
+    "description": "Crystal-clear case that resists yellowing, with MagSafe"
+   },
+   "createdAt": "2026-10-02T09:00:00Z"
+  },
+  {
+   "id": "a-caseshockproof",
+   "slug": "rugged-shockproof-case-galaxy-s25-ultra",
+   "name": "Rugged Shockproof Case with Stand (Galaxy S25 Ultra)",
+   "brandId": "b-baseus",
+   "categoryId": "c-cases",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Kava ngumu ya kuzuia mshtuko yenye kisimamo",
+    "en": "Heavy-duty shockproof case with a built-in kickstand"
+   },
+   "description": {
+    "sw": "Kava ngumu ya kuzuia mshtuko yenye kisimamo. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Heavy-duty shockproof case with a built-in kickstand. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Kinga ya kiwango cha jeshi",
+     "en": "Military-grade drop protection"
+    },
+    {
+     "sw": "Kisimamo",
+     "en": "Kickstand"
+    },
+    {
+     "sw": "Kinga ya kamera",
+     "en": "Camera guard"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Kava moja",
+     "en": "1 case"
+    }
+   ],
+   "price": 38000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    },
+    {
+     "name": {
+      "sw": "Bluu",
+      "en": "Blue"
+     },
+     "hex": "#3e5a80"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-caseshockproof-v0",
+     "sku": "RUGGEDSHOCKPROOFCASEGALAXYS25ULTRA-0",
+     "color": "#1e1f22",
+     "price": 38000,
+     "stock": 25,
+     "compareAtPrice": 45000
+    },
+    {
+     "id": "a-caseshockproof-v1",
+     "sku": "RUGGEDSHOCKPROOFCASEGALAXYS25ULTRA-1",
+     "color": "#3e5a80",
+     "price": 38000,
+     "stock": 12,
+     "compareAtPrice": 45000
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Nyenzo",
+        "en": "Material"
+       },
+       "value": "TPU + PC"
+      },
+      {
+       "label": {
+        "sw": "Inafaa",
+        "en": "Fits"
+       },
+       "value": "Galaxy S25 Ultra"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 6,
+   "tags": [
+    "deal"
+   ],
+   "images": [],
+   "art": {
+    "kind": "case"
+   },
+   "compatibleWith": [
+    "p-s25u"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Rugged Shockproof Case with Stand (Galaxy S25 Ultra) | Joh Shopping",
+    "description": "Heavy-duty shockproof case with a built-in kickstand"
+   },
+   "createdAt": "2026-09-28T09:00:00Z",
+   "compareAtPrice": 45000
+  },
+  {
+   "id": "a-privacy16pm",
+   "slug": "privacy-glass-iphone-16-pro-max",
+   "name": "Privacy Tempered Glass for iPhone 16 Pro Max",
+   "brandId": "b-baseus",
+   "categoryId": "c-protectors",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Kioo cha faragha: wanaokaa pembeni hawaoni skrini yako",
+    "en": "Privacy glass: people beside you can't see your screen"
+   },
+   "description": {
+    "sw": "Kioo cha faragha: wanaokaa pembeni hawaoni skrini yako. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Privacy glass: people beside you can't see your screen. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Faragha ya 28°",
+     "en": "28° privacy angle"
+    },
+    {
+     "sw": "Ugumu 9H",
+     "en": "9H hardness"
+    },
+    {
+     "sw": "Fremu ya kuweka",
+     "en": "Alignment frame"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Kioo 1",
+     "en": "1 glass protector"
+    },
+    {
+     "sw": "Fremu ya kuweka",
+     "en": "Alignment frame"
+    },
+    {
+     "sw": "Kitambaa cha kusafisha",
+     "en": "Cleaning kit"
+    }
+   ],
+   "price": 25000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-privacy16pm-v0",
+     "sku": "PRIVACYGLASSIPHONE16PROMAX-0",
+     "color": "#1e1f22",
+     "price": 25000,
+     "stock": 40
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Unene",
+        "en": "Thickness"
+       },
+       "value": "0.33 mm"
+      },
+      {
+       "label": {
+        "sw": "Inafaa",
+        "en": "Fits"
+       },
+       "value": "iPhone 16 Pro Max"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 1,
+   "tags": [
+    "new"
+   ],
+   "images": [],
+   "art": {
+    "kind": "protector"
+   },
+   "compatibleWith": [
+    "p-ip16pm"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Privacy Tempered Glass for iPhone 16 Pro Max | Joh Shopping",
+    "description": "Privacy glass: people beside you can't see your screen"
+   },
+   "createdAt": "2026-10-08T09:00:00Z"
+  },
+  {
+   "id": "a-lensglass",
+   "slug": "camera-lens-protector-iphone-16-pro",
+   "name": "Camera Lens Protector for iPhone 16 Pro / Pro Max",
+   "brandId": "b-baseus",
+   "categoryId": "c-protectors",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Linda lenzi za kamera dhidi ya mikwaruzo bila kupunguza ubora wa picha",
+    "en": "Protects your camera lenses from scratches without affecting photos"
+   },
+   "description": {
+    "sw": "Linda lenzi za kamera dhidi ya mikwaruzo bila kupunguza ubora wa picha. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Protects your camera lenses from scratches without affecting photos. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Kioo cha sapphire",
+     "en": "Sapphire-coated glass"
+    },
+    {
+     "sw": "Haiathiri flash",
+     "en": "Flash-friendly"
+    },
+    {
+     "sw": "Rahisi kuweka",
+     "en": "Easy install"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Kinga ya lenzi (seti 1)",
+     "en": "1 lens protector set"
+    }
+   ],
+   "price": 15000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    },
+    {
+     "name": {
+      "sw": "Fedha",
+      "en": "Silver"
+     },
+     "hex": "#d3d5d8"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-lensglass-v0",
+     "sku": "CAMERALENSPROTECTORIPHONE16PRO-0",
+     "color": "#1e1f22",
+     "price": 15000,
+     "stock": 35
+    },
+    {
+     "id": "a-lensglass-v1",
+     "sku": "CAMERALENSPROTECTORIPHONE16PRO-1",
+     "color": "#d3d5d8",
+     "price": 15000,
+     "stock": 20
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Nyenzo",
+        "en": "Material"
+       },
+       "value": "Aluminium + glass"
+      },
+      {
+       "label": {
+        "sw": "Inafaa",
+        "en": "Fits"
+       },
+       "value": "iPhone 16 Pro / 16 Pro Max"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 1,
+   "tags": [
+    "trending"
+   ],
+   "images": [],
+   "art": {
+    "kind": "protector"
+   },
+   "compatibleWith": [
+    "p-ip16pm"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Camera Lens Protector for iPhone 16 Pro / Pro Max | Joh Shopping",
+    "description": "Protects your camera lenses from scratches without affecting photos"
+   },
+   "createdAt": "2026-09-25T09:00:00Z"
+  },
+  {
+   "id": "a-glassrn14",
+   "slug": "full-cover-glass-redmi-note-14-pro",
+   "name": "Full-Cover Tempered Glass (Redmi Note 14 Pro / Tecno Spark 30 Pro)",
+   "brandId": "b-xiaomi",
+   "categoryId": "c-protectors",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Kioo kinachofunika skrini nzima, pembe hadi pembe",
+    "en": "Edge-to-edge glass that covers the whole screen"
+   },
+   "description": {
+    "sw": "Kioo kinachofunika skrini nzima, pembe hadi pembe. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Edge-to-edge glass that covers the whole screen. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Inafunika skrini nzima",
+     "en": "Full-screen cover"
+    },
+    {
+     "sw": "Ugumu 9H",
+     "en": "9H hardness"
+    },
+    {
+     "sw": "Haichukui alama za vidole",
+     "en": "Oleophobic coating"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Kioo 1",
+     "en": "1 glass protector"
+    },
+    {
+     "sw": "Kitambaa cha kusafisha",
+     "en": "Cleaning kit"
+    }
+   ],
+   "price": 12000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-glassrn14-v0",
+     "sku": "FULLCOVERGLASSREDMINOTE14PRO-0",
+     "color": "#1e1f22",
+     "price": 12000,
+     "stock": 50
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Unene",
+        "en": "Thickness"
+       },
+       "value": "0.3 mm"
+      },
+      {
+       "label": {
+        "sw": "Inafaa",
+        "en": "Fits"
+       },
+       "value": "Redmi Note 14 Pro 5G / Tecno Spark 30 Pro"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 1,
+   "tags": [
+    "deal"
+   ],
+   "images": [],
+   "art": {
+    "kind": "protector"
+   },
+   "compatibleWith": [
+    "p-rn14p",
+    "p-spark30"
+   ],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Full-Cover Tempered Glass (Redmi Note 14 Pro / Tecno Spark 30 Pro) | Joh Shopping",
+    "description": "Edge-to-edge glass that covers the whole screen"
+   },
+   "createdAt": "2026-09-15T09:00:00Z"
+  },
+  {
+   "id": "a-redmiwatch5",
+   "slug": "redmi-watch-5-active",
+   "name": "Redmi Watch 5 Active",
+   "brandId": "b-xiaomi",
+   "categoryId": "c-wearables",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Skrini kubwa ya 2\", simu kupitia Bluetooth na betri ya siku 18",
+    "en": "Big 2\" display, Bluetooth calls and up to 18 days of battery"
+   },
+   "description": {
+    "sw": "Skrini kubwa ya 2\", simu kupitia Bluetooth na betri ya siku 18. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Big 2\" display, Bluetooth calls and up to 18 days of battery. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Simu kupitia Bluetooth",
+     "en": "Bluetooth calling"
+    },
+    {
+     "sw": "Betri siku 18",
+     "en": "18-day battery"
+    },
+    {
+     "sw": "Michezo 140+",
+     "en": "140+ sport modes"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Saa",
+     "en": "Watch"
+    },
+    {
+     "sw": "Waya wa chaji",
+     "en": "Charging cable"
+    }
+   ],
+   "price": 85000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    },
+    {
+     "name": {
+      "sw": "Fedha",
+      "en": "Silver"
+     },
+     "hex": "#d3d5d8"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-redmiwatch5-v0",
+     "sku": "REDMIWATCH5ACTIVE-0",
+     "color": "#1e1f22",
+     "price": 85000,
+     "stock": 16,
+     "compareAtPrice": 95000
+    },
+    {
+     "id": "a-redmiwatch5-v1",
+     "sku": "REDMIWATCH5ACTIVE-1",
+     "color": "#d3d5d8",
+     "price": 85000,
+     "stock": 10,
+     "compareAtPrice": 95000
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Skrini",
+        "en": "Display"
+       },
+       "value": "2.0\" LCD"
+      },
+      {
+       "label": {
+        "sw": "Betri",
+        "en": "Battery"
+       },
+       "value": "Up to 18 days"
+      },
+      {
+       "label": {
+        "sw": "Kinga ya maji",
+        "en": "Water resistance"
+       },
+       "value": "5 ATM"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 12,
+   "tags": [
+    "new",
+    "deal"
+   ],
+   "images": [],
+   "art": {
+    "kind": "watch"
+   },
+   "compatibleWith": [],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Redmi Watch 5 Active | Joh Shopping",
+    "description": "Big 2\" display, Bluetooth calls and up to 18 days of battery"
+   },
+   "createdAt": "2026-10-10T09:00:00Z",
+   "compareAtPrice": 95000
+  },
+  {
+   "id": "a-oraimowatch",
+   "slug": "oraimo-watch-5-lite",
+   "name": "Oraimo Watch 5 Lite",
+   "brandId": "b-oraimo",
+   "categoryId": "c-wearables",
+   "condition": "new",
+   "shortDescription": {
+    "sw": "Saa janja ya bei nafuu: mapigo ya moyo, hatua na arifa za simu",
+    "en": "Affordable smartwatch: heart rate, steps and phone notifications"
+   },
+   "description": {
+    "sw": "Saa janja ya bei nafuu: mapigo ya moyo, hatua na arifa za simu. Ni bidhaa halisi yenye dhamana, imejaribiwa kufanya kazi vizuri na simu zako za kila siku.",
+    "en": "Affordable smartwatch: heart rate, steps and phone notifications. Genuine, covered by warranty and tested to work seamlessly with your everyday devices."
+   },
+   "highlights": [
+    {
+     "sw": "Arifa za simu",
+     "en": "Phone notifications"
+    },
+    {
+     "sw": "Mapigo ya moyo",
+     "en": "Heart-rate tracking"
+    },
+    {
+     "sw": "IP68",
+     "en": "IP68"
+    }
+   ],
+   "inBox": [
+    {
+     "sw": "Saa",
+     "en": "Watch"
+    },
+    {
+     "sw": "Waya wa chaji",
+     "en": "Charging cable"
+    }
+   ],
+   "price": 55000,
+   "colors": [
+    {
+     "name": {
+      "sw": "Nyeusi",
+      "en": "Black"
+     },
+     "hex": "#1e1f22"
+    },
+    {
+     "name": {
+      "sw": "Waridi",
+      "en": "Pink"
+     },
+     "hex": "#e9bac4"
+    }
+   ],
+   "storages": [],
+   "rams": [],
+   "variants": [
+    {
+     "id": "a-oraimowatch-v0",
+     "sku": "ORAIMOWATCH5LITE-0",
+     "color": "#1e1f22",
+     "price": 55000,
+     "stock": 28
+    },
+    {
+     "id": "a-oraimowatch-v1",
+     "sku": "ORAIMOWATCH5LITE-1",
+     "color": "#e9bac4",
+     "price": 55000,
+     "stock": 15
+    }
+   ],
+   "specs": [
+    {
+     "group": {
+      "sw": "Vipimo",
+      "en": "Specifications"
+     },
+     "items": [
+      {
+       "label": {
+        "sw": "Skrini",
+        "en": "Display"
+       },
+       "value": "1.85\" HD"
+      },
+      {
+       "label": {
+        "sw": "Betri",
+        "en": "Battery"
+       },
+       "value": "Up to 10 days"
+      },
+      {
+       "label": {
+        "sw": "Kinga ya maji",
+        "en": "Water resistance"
+       },
+       "value": "IP68"
+      }
+     ]
+    }
+   ],
+   "rating": 0,
+   "reviewCount": 0,
+   "sold": 0,
+   "warrantyMonths": 12,
+   "tags": [
+    "bestseller"
+   ],
+   "images": [],
+   "art": {
+    "kind": "watch"
+   },
+   "compatibleWith": [],
+   "status": "published",
+   "lowStockThreshold": 5,
+   "seo": {
+    "title": "Oraimo Watch 5 Lite | Joh Shopping",
+    "description": "Affordable smartwatch: heart rate, steps and phone notifications"
+   },
+   "createdAt": "2026-09-18T09:00:00Z"
   }
  ],
  "categories": [
@@ -29385,6 +30451,69 @@
    "theme": "red",
    "active": true,
    "sortOrder": 2
+  },
+  {
+   "id": "bn-6",
+   "title": {
+    "sw": "Simu Mpya, Dhamana Halisi",
+    "en": "New Phones, Genuine Warranty"
+   },
+   "subtitle": {
+    "sw": "iPhone, Samsung, Xiaomi na Tecno kwa bei ya haki. Lipa kwa M-Pesa au kadi.",
+    "en": "iPhone, Samsung, Xiaomi and Tecno at fair prices. Pay by M-Pesa or card."
+   },
+   "cta": {
+    "sw": "Angalia Simu",
+    "en": "Browse Phones"
+   },
+   "href": "/products?category=smartphones",
+   "productId": "p-s25u",
+   "placement": "category",
+   "theme": "dark",
+   "active": true,
+   "sortOrder": 1
+  },
+  {
+   "id": "bn-7",
+   "title": {
+    "sw": "Linda Simu Yako",
+    "en": "Protect Your Phone"
+   },
+   "subtitle": {
+    "sw": "Kava na vioo vinavyofaa simu yako kikamilifu, kuanzia TSh 12,000.",
+    "en": "Cases and glass that fit your phone perfectly, from TSh 12,000."
+   },
+   "cta": {
+    "sw": "Nunua Kinga",
+    "en": "Shop Protection"
+   },
+   "href": "/products?category=cases-covers",
+   "productId": "a-case16pm",
+   "placement": "category",
+   "theme": "red",
+   "active": true,
+   "sortOrder": 2
+  },
+  {
+   "id": "bn-8",
+   "title": {
+    "sw": "Saa Janja",
+    "en": "Smartwatches"
+   },
+   "subtitle": {
+    "sw": "Fuatilia afya na arifa zako, kuanzia TSh 55,000.",
+    "en": "Track your health and notifications, from TSh 55,000."
+   },
+   "cta": {
+    "sw": "Nunua Saa",
+    "en": "Shop Watches"
+   },
+   "href": "/products?category=smartwatches",
+   "productId": "a-watch10",
+   "placement": "category",
+   "theme": "light",
+   "active": true,
+   "sortOrder": 3
   }
  ],
  "pages": [
@@ -33360,7 +34489,7 @@
  ],
  "settings": {
   "storeName": "Joh Shopping",
-  "email": "hello@johshopping.co.tz",
+  "email": "support@johshopping.com",
   "phone": "+255712000100",
   "whatsapp": "+255712000100",
   "address": "Mtaa wa Msimbazi, Kariakoo, Dar es Salaam",

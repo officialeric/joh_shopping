@@ -3,6 +3,12 @@ export const common = {
     name: "Joh Shopping",
     tagline: "Simu halisi. Vifaa bora. Bei ya haki.",
   },
+  maintenance: {
+    title: "Tunaboresha duka letu",
+    body: "Joh Shopping iko kwenye matengenezo kwa muda mfupi. Tafadhali rudi baadaye kidogo.",
+    contact: "Unahitaji msaada sasa hivi? Wasiliana nasi:",
+    staffBanner: "Hali ya matengenezo imewashwa. Wateja wanaona ukurasa wa matengenezo; wewe unaona duka kwa sababu umeingia kama mfanyakazi.",
+  },
   nav: {
     home: "Nyumbani",
     shop: "Duka",
@@ -405,6 +411,7 @@ export const common = {
     order_not_delivered: "Unaweza kurudisha bidhaa baada ya oda kufika.",
     already_reviewed: "Tayari umeandika maoni kwa bidhaa hii.",
     invalid_amount: "Kiasi si sahihi.",
+    refund_unpaid: "Oda hii haijalipwa, kwa hiyo hakuna pesa ya kurejesha.",
     duplicate: "IMEI hii tayari imesajiliwa.",
     imei_taken: "IMEI hii tayari imeuzwa kwenye oda nyingine.",
     sku_taken: "SKU hii inatumika kwenye bidhaa nyingine.",

@@ -1,3 +1,4 @@
+import { MaintenanceGate } from "@/components/layout/maintenance-gate";
 import { Lock } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { Link } from "@/components/ui/link";
@@ -7,7 +8,7 @@ import { getT } from "@/lib/i18n/server";
 export default async function CheckoutLayout({ children }: LayoutProps<"/[lang]">) {
   const { t } = await getT();
   return (
-    <>
+    <MaintenanceGate>
       <header className="border-b border-border bg-card">
         <div className="container-page flex h-16 items-center justify-between">
           <Link href="/" aria-label={t.common.brand.name}>
@@ -36,6 +37,6 @@ export default async function CheckoutLayout({ children }: LayoutProps<"/[lang]"
           </div>
         </div>
       </footer>
-    </>
+    </MaintenanceGate>
   );
 }

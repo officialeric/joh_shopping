@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
  */
 class ReturnRequestResource extends ApiResource
 {
-    protected array $optional = ['imei', 'resolution'];
+    protected array $optional = ['imei', 'resolution', 'refundAmount', 'refundable', 'suggestedRefund'];
 
     protected function fields(Request $request): array
     {
@@ -28,8 +28,17 @@ class ReturnRequestResource extends ApiResource
             'details' => $this->details,
             'status' => $this->status,
             'resolution' => $this->resolution,
+            'refundAmount' => $this->refund_amount,
+            // Staff only: the admin controller eager-loads the payment and items.
+            'refundable' => $this->staffView() ? $this->refundable() : null,
+            'suggestedRefund' => $this->staffView() ? $this->suggestedRefund() : null,
             'createdAt' => self::iso($this->created_at),
             'updatedAt' => self::iso($this->updated_at),
         ];
+    }
+
+    private function staffView(): bool
+    {
+        return (bool) $this->order?->relationLoaded('payment') && $this->order->relationLoaded('items');
     }
 }

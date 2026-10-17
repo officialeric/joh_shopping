@@ -210,4 +210,21 @@ class CheckoutTest extends TestCase
 
         $this->postJson('/api/orders', $this->payload($product))->assertStatus(503);
     }
+
+    public function test_the_sandbox_cannot_take_payments_on_a_live_store_unless_allowed(): void
+    {
+        config(['payments.allow_sandbox' => false]);
+        StoreSettings::save(['paymentMethods' => [...StoreSettings::all()['paymentMethods'], 'cod' => true]]);
+        $product = Product::factory()->create();
+
+        $this->getJson('/api/settings')
+            ->assertJsonPath('data.paymentMethods.mpesa', false)
+            ->assertJsonPath('data.paymentMethods.card', false)
+            ->assertJsonPath('data.paymentMethods.cod', true);
+
+        $this->postJson('/api/orders', $this->payload($product))
+            ->assertUnprocessable()
+            ->assertJsonPath('errors.paymentMethod.0', 'payment_method_unavailable');
+        $this->fromSpa()->postJson('/api/orders', $this->payload($product, 1, ['paymentMethod' => 'cod']))->assertCreated();
+    }
 }

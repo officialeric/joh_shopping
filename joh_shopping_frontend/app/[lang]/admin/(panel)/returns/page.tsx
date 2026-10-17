@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { ReturnRequest } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Field, NativeSelect } from "@/components/ui/form-controls";
+import { Field, Input, NativeSelect } from "@/components/ui/form-controls";
 import { Link } from "@/components/ui/link";
 import { Badge } from "@/components/ui/primitives";
 import { Sheet, SheetContent } from "@/components/ui/overlays";
@@ -15,7 +15,7 @@ import { ReturnStatusBadge } from "@/components/admin/widgets";
 import { updateReturn } from "@/lib/api/admin";
 import { useAdminList, useInvalidateAdmin } from "@/lib/api/hooks";
 import { useT } from "@/lib/i18n/client";
-import { formatDate, formatDateTime } from "@/lib/utils";
+import { formatDate, formatDateTime, formatTZS } from "@/lib/utils";
 import { apiErrorMessage } from "@/lib/api/errors";
 
 const STATUSES: ReturnRequest["status"][] = ["requested", "approved", "received", "repaired", "refunded", "rejected", "completed"];
@@ -29,13 +29,17 @@ export default function AdminReturnsPage() {
   const [open, setOpen] = useState<ReturnRequest | null>(null);
   const [status, setStatus] = useState<ReturnRequest["status"]>("requested");
   const [resolution, setResolution] = useState<NonNullable<ReturnRequest["resolution"]>>("refund");
+  const [refundAmount, setRefundAmount] = useState("");
   const [busy, setBusy] = useState(false);
 
   const show = (row: ReturnRequest) => {
     setOpen(row);
     setStatus(row.status);
     setResolution(row.resolution ?? "refund");
+    setRefundAmount(row.suggestedRefund ? String(row.suggestedRefund) : "");
   };
+  // Marking a return refunded refunds the payment once; the amount is asked for only then.
+  const asksRefund = !!open && status === "refunded" && open.status !== "refunded" && open.refundAmount === undefined;
 
   const columns: Column<ReturnRequest>[] = [
     {
@@ -99,6 +103,7 @@ export default function AdminReturnsPage() {
                   [t.admin.common.product, open.productName],
                   ["IMEI", open.imei ?? "—"],
                   [r.reason, open.reason],
+                  ...(open.refundAmount !== undefined ? [[r.refundedAmount, formatTZS(open.refundAmount)]] : []),
                 ].map(([k, v], i) => (
                   <div key={i} className="grid grid-cols-[110px_1fr] gap-3">
                     <dt className="text-muted-foreground">{k}</dt>
@@ -126,13 +131,22 @@ export default function AdminReturnsPage() {
                     ))}
                   </NativeSelect>
                 </Field>
+                {asksRefund && (
+                  <Field label={r.refundAmount} htmlFor="rt-refund" hint={r.refundHint.replace("{amount}", formatTZS(open.refundable ?? 0))}>
+                    <Input id="rt-refund" type="number" inputMode="numeric" min={1} max={open.refundable} value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} />
+                  </Field>
+                )}
                 <Button
                   className="w-full"
                   loading={busy}
                   onClick={async () => {
                     setBusy(true);
                     try {
-                      const updated = await updateReturn(open.id, { status, resolution });
+                      const updated = await updateReturn(open.id, {
+                        status,
+                        resolution,
+                        ...(asksRefund && refundAmount ? { refundAmount: Number(refundAmount) } : {}),
+                      });
                       setOpen({ ...updated });
                       refresh();
                       toast.success(r.updated);

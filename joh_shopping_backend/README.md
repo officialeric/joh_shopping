@@ -19,24 +19,18 @@ The application uses East Africa Time (`Africa/Nairobi`, UTC+3) for PHP date/tim
 
 Emails (order updates, password reset, verification, staff invites) go to `storage/logs/laravel.log` while `MAIL_MAILER=log`. Most are queued, so keep `php artisan dev` (or `php artisan queue:work`) running.
 
-### Demo data
+### Seed data
 
-`php artisan migrate:fresh --seed` loads the same demo data as the frontend mock: 32 products, 260 orders, IMEIs, returns, coupons and so on. It comes from `database/seeders/data/seed.json`. All dates are shifted so the newest record is "now".
+`php artisan migrate:fresh --seed` gives a clean store for testing every flow yourself:
 
-| Area | Login | Password |
-|---|---|---|
-| Customer | amina@example.co.tz (or 0712 345 678) | Password@123 |
-| Admin, Super Admin | admin@johshopping.co.tz | Admin@123 |
-| Admin, Sales role | sales@johshopping.co.tz | Sales@123 |
-| Other demo staff | e.g. mwanaisha@johshopping.co.tz | Staff@123 |
+- Roles and permissions, store settings, the 7 categories and 11 brands, colour/storage options, shipping zones, pickup stores and policy pages.
+- One product (iPhone 16 Pro Max, 12 variants in stock).
+- One Super Admin from `ADMIN_EMAIL` / `ADMIN_PASSWORD` (default support@johshopping.com / Admin@123 outside production). In production, set `ADMIN_PASSWORD`, or skip it and run `php artisan app:create-admin`.
+- No customers, orders, coupons or banners. Order numbers start at JOH-10240.
 
-Coupons: `KARIBU10`, `JOHFREE`, `SIMU50K`. `seed.json` was exported from the frontend's original mock data and is now the canonical demo dataset.
+To wipe an existing database back to that state without migrating: `php artisan app:reset-for-testing --force` (`--product=` and `--admin-email=` change what it keeps).
 
-In production, `db:seed` creates only roles and permissions. Create the first admin with:
-
-```bash
-php artisan app:create-admin --name="Joseph Mushi" --email=admin@johshopping.co.tz
-```
+**Full demo instead:** set `SEED_DEMO_DATA=true` and run `php artisan migrate:fresh --seed` for 32 products, 260 orders, customers, staff, IMEIs, returns and coupons (from `database/seeders/data/seed.json`, dates shifted to "now"). Demo logins: amina@example.co.tz / Password@123 (customer), sales@johshopping.co.tz / Sales@123, other staff / Staff@123. Coupons: `KARIBU10`, `JOHFREE`, `SIMU50K`.
 
 ## Auth
 

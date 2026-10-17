@@ -1,9 +1,9 @@
 "use client";
 
-import { Check, LayoutGrid, List, PackageSearch, SlidersHorizontal, X } from "lucide-react";
+import { ArrowRight, Check, LayoutGrid, List, PackageSearch, SlidersHorizontal, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
-import type { Product } from "@/types";
+import type { Banner, Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox, Input, Label } from "@/components/ui/form-controls";
 import { EmptyState } from "@/components/ui/feedback";
@@ -24,6 +24,7 @@ import type { ProductQuery, SortKey } from "@/lib/data/catalog";
 import { useShop } from "@/lib/data/shop-context";
 import { useT } from "@/lib/i18n/client";
 import { cn, fmt, formatTZS } from "@/lib/utils";
+import { BannerVisual } from "./banner-visual";
 import { ProductCard, ProductImage } from "./product-card";
 import { Price } from "./price";
 import { useProductActions } from "./product-actions";
@@ -56,7 +57,7 @@ function parseQuery(sp: URLSearchParams): ProductQuery & { page: number; view: "
 
 export function ProductsExplorer() {
   const { t, locale } = useT();
-  const { allColors, brands, categories, getBrand, getCategoryBySlug, queryProducts } = useShop();
+  const { allColors, banners, brands, categories, getBrand, getCategoryBySlug, queryProducts } = useShop();
   const sp = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -102,6 +103,10 @@ export function ProductsExplorer() {
   const title = query.q ? fmt(t.shop.listing.searchResults, { q: query.q }) : category ? category.name[locale] : t.shop.listing.allProducts;
 
   const filters = <Filters query={query} update={update} toggleIn={toggleIn} />;
+
+  // Admin → Banners with placement "category": the one linking to this category, or the first on the unfiltered listing.
+  const categoryBanners = banners.filter((b) => b.placement === "category").sort((a, b) => a.sortOrder - b.sortOrder);
+  const banner = query.q ? undefined : category ? categoryBanners.find((b) => b.href.includes(`category=${category.slug}`)) : chips.length === 0 ? categoryBanners[0] : undefined;
 
   return (
     <div>
@@ -232,6 +237,8 @@ export function ProductsExplorer() {
               </button>
             </div>
           )}
+
+          {banner && <CategoryBanner banner={banner} />}
 
           {results.length === 0 ? (
             <EmptyState
@@ -459,5 +466,32 @@ function ProductRow({ product }: { product: Product }) {
         <Button onClick={() => actions.addToCart(product)}>{t.common.actions.addToCart}</Button>
       </div>
     </article>
+  );
+}
+
+const BANNER_THEMES = {
+  dark: "bg-neutral-950 text-white",
+  red: "bg-brand-gradient text-white",
+  light: "bg-surface text-foreground",
+};
+
+/** A slim promo above the results. Hidden on phones so products come first. */
+function CategoryBanner({ banner }: { banner: Banner }) {
+  const { locale } = useT();
+  const light = banner.theme === "light";
+  return (
+    <Link href={banner.href} className={cn("group relative mb-6 hidden h-40 items-center overflow-hidden rounded-3xl px-8 md:flex", BANNER_THEMES[banner.theme])}>
+      <div className="relative z-10 max-w-[60%]">
+        <p className="font-display text-2xl font-semibold">{banner.title[locale]}</p>
+        <p className={cn("mt-1 line-clamp-2 text-sm", light ? "text-muted-foreground" : "text-white/75")}>{banner.subtitle[locale]}</p>
+        <span className={cn("mt-3 inline-flex items-center gap-1.5 text-sm font-semibold", light && "text-primary")}>
+          {banner.cta[locale]}
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
+      <div className="absolute right-6 -bottom-6 aspect-square h-[130%] transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3">
+        <BannerVisual banner={banner} />
+      </div>
+    </Link>
   );
 }

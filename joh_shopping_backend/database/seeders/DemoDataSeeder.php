@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use App\Models\Role;
 use App\Models\Staff;
 use App\Support\Sequence;
 use App\Support\StoreSettings;
 use Carbon\CarbonImmutable;
+use Database\Seeders\Concerns\SeedsCatalog;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +27,8 @@ use Illuminate\Support\Str;
  */
 class DemoDataSeeder extends Seeder
 {
+    use SeedsCatalog;
+
     /** @var array<string, mixed> */
     private array $seed;
 
@@ -34,14 +36,28 @@ class DemoDataSeeder extends Seeder
 
     private string $now;
 
-    public function run(): void
+    /**
+     * @param  bool  $storeOnly  Only the store setup (categories, brands, attributes,
+     *                           shipping, pickup stores, pages, settings); no products,
+     *                           customers, staff, orders or marketing data.
+     */
+    public function run(bool $storeOnly = false): void
     {
         $this->seed = json_decode((string) file_get_contents(database_path('seeders/data/seed.json')), true, flags: JSON_THROW_ON_ERROR);
         $this->shift = CarbonImmutable::now()->getTimestamp() - CarbonImmutable::parse($this->seed['seedNow'])->getTimestamp();
         $this->now = now()->toDateTimeString();
 
-        DB::transaction(function (): void {
-            $this->catalog();
+        DB::transaction(function () use ($storeOnly): void {
+            $this->catalog($storeOnly);
+            $this->storeSetup();
+
+            if ($storeOnly) {
+                Sequence::set('orders', 10239);
+                Sequence::set('returns', 5099);
+
+                return;
+            }
+
             $this->people();
             $this->sales();
             $this->backOffice();
@@ -50,7 +66,7 @@ class DemoDataSeeder extends Seeder
         StoreSettings::save($this->seed['settings']);
     }
 
-    private function catalog(): void
+    private function catalog(bool $storeOnly): void
     {
         $this->insert('categories', $this->seed['categories'], fn (array $c): array => [
             'id' => $c['id'],
@@ -76,55 +92,11 @@ class DemoDataSeeder extends Seeder
             'updated_at' => $this->now,
         ]);
 
-        foreach ($this->seed['products'] as $p) {
-            Product::create([
-                'id' => $p['id'],
-                'slug' => $p['slug'],
-                'name' => $p['name'],
-                'brand_id' => $p['brandId'],
-                'category_id' => $p['categoryId'],
-                'condition' => $p['condition'],
-                'grade' => $p['grade'] ?? null,
-                'battery_health' => $p['batteryHealth'] ?? null,
-                'short_description' => $p['shortDescription'],
-                'description' => $p['description'],
-                'highlights' => $p['highlights'],
-                'in_box' => $p['inBox'],
-                'price' => $p['price'],
-                'compare_at_price' => $p['compareAtPrice'] ?? null,
-                'colors' => $p['colors'],
-                'storages' => $p['storages'],
-                'rams' => $p['rams'],
-                'specs' => $p['specs'],
-                'rating' => $p['rating'],
-                'review_count' => $p['reviewCount'],
-                'sold' => $p['sold'],
-                'warranty_months' => $p['warrantyMonths'],
-                'tags' => $p['tags'],
-                'images' => $p['images'],
-                'art' => $p['art'],
-                'compatible_with' => $p['compatibleWith'],
-                'status' => $p['status'],
-                'low_stock_threshold' => $p['lowStockThreshold'],
-                'seo' => $p['seo'],
-                'created_at' => $this->at($p['createdAt']),
-                'updated_at' => $this->at($p['createdAt']),
-            ]);
-
-            $this->insert('product_variants', $p['variants'], fn (array $v, int $i): array => [
-                'id' => $v['id'],
-                'product_id' => $p['id'],
-                'sku' => $v['sku'],
-                'color' => strtolower($v['color']),
-                'storage' => $v['storage'] ?? null,
-                'ram' => $v['ram'] ?? null,
-                'price' => $v['price'],
-                'compare_at_price' => $v['compareAtPrice'] ?? null,
-                'stock' => $v['stock'],
-                'sort_order' => $i,
-                'created_at' => $this->now,
-                'updated_at' => $this->now,
-            ]);
+        // The clean store's products and banners come from StoreCatalogSeeder.
+        if (! $storeOnly) {
+            foreach ($this->seed['products'] as $p) {
+                $this->seedProduct($p, $this->at($p['createdAt']));
+            }
         }
 
         $this->insert('attribute_values', $this->seed['attributes'], fn (array $a): array => [
@@ -135,6 +107,48 @@ class DemoDataSeeder extends Seeder
             'hex' => $a['hex'] ?? null,
             'created_at' => $this->now,
             'updated_at' => $this->now,
+        ]);
+    }
+
+    /**
+     * Shipping zones, pickup stores and policy pages.
+     */
+    private function storeSetup(): void
+    {
+        $this->insert('shipping_zones', $this->seed['zones'], fn (array $z): array => [
+            'id' => $z['id'],
+            'name' => $z['name'],
+            'regions' => $this->json($z['regions']),
+            'standard_fee' => $z['standardFee'],
+            'express_fee' => $z['expressFee'],
+            'free_above' => $z['freeAbove'],
+            'standard_days' => $z['standardDays'],
+            'express_days' => $z['expressDays'],
+            'active' => $z['active'],
+            'created_at' => $this->now,
+            'updated_at' => $this->now,
+        ]);
+
+        $this->insert('pickup_stores', $this->seed['stores'], fn (array $s): array => [
+            'id' => $s['id'],
+            'name' => $s['name'],
+            'region' => $s['region'],
+            'address' => $s['address'],
+            'phone' => $s['phone'],
+            'hours' => $this->json($s['hours']),
+            'map_url' => $s['mapUrl'],
+            'created_at' => $this->now,
+            'updated_at' => $this->now,
+        ]);
+
+        $this->insert('pages', $this->seed['pages'], fn (array $p): array => [
+            'id' => $p['id'],
+            'slug' => $p['slug'],
+            'title' => $this->json($p['title']),
+            'body' => $this->json($p['body']),
+            'published' => $p['published'],
+            'created_at' => $this->at($p['updatedAt']),
+            'updated_at' => $this->at($p['updatedAt']),
         ]);
     }
 
@@ -256,32 +270,6 @@ class DemoDataSeeder extends Seeder
                 'updated_at' => $this->now,
             ]);
         }
-
-        $this->insert('shipping_zones', $this->seed['zones'], fn (array $z): array => [
-            'id' => $z['id'],
-            'name' => $z['name'],
-            'regions' => $this->json($z['regions']),
-            'standard_fee' => $z['standardFee'],
-            'express_fee' => $z['expressFee'],
-            'free_above' => $z['freeAbove'],
-            'standard_days' => $z['standardDays'],
-            'express_days' => $z['expressDays'],
-            'active' => $z['active'],
-            'created_at' => $this->now,
-            'updated_at' => $this->now,
-        ]);
-
-        $this->insert('pickup_stores', $this->seed['stores'], fn (array $s): array => [
-            'id' => $s['id'],
-            'name' => $s['name'],
-            'region' => $s['region'],
-            'address' => $s['address'],
-            'phone' => $s['phone'],
-            'hours' => $this->json($s['hours']),
-            'map_url' => $s['mapUrl'],
-            'created_at' => $this->now,
-            'updated_at' => $this->now,
-        ]);
 
         $customerIds = collect($this->seed['customers'])->pluck('id')->flip();
 
@@ -420,31 +408,9 @@ class DemoDataSeeder extends Seeder
 
     private function backOffice(): void
     {
-        $this->insert('banners', $this->seed['banners'], fn (array $b): array => [
-            'id' => $b['id'],
-            'title' => $this->json($b['title']),
-            'subtitle' => $this->json($b['subtitle']),
-            'cta' => $this->json($b['cta']),
-            'href' => $b['href'],
-            'product_id' => $b['productId'] ?? null,
-            'image' => null,
-            'placement' => $b['placement'],
-            'theme' => $b['theme'],
-            'active' => $b['active'],
-            'sort_order' => $b['sortOrder'],
-            'created_at' => $this->now,
-            'updated_at' => $this->now,
-        ]);
-
-        $this->insert('pages', $this->seed['pages'], fn (array $p): array => [
-            'id' => $p['id'],
-            'slug' => $p['slug'],
-            'title' => $this->json($p['title']),
-            'body' => $this->json($p['body']),
-            'published' => $p['published'],
-            'created_at' => $this->at($p['updatedAt']),
-            'updated_at' => $this->at($p['updatedAt']),
-        ]);
+        foreach ($this->seed['banners'] as $b) {
+            $this->seedBanner($b);
+        }
 
         $this->insert('contact_messages', $this->seed['messages'], fn (array $m): array => [
             'id' => $m['id'],

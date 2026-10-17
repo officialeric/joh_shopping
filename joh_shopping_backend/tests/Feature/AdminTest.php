@@ -12,8 +12,10 @@ use App\Notifications\BackInStock;
 use App\Notifications\StaffInvitation;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -242,5 +244,20 @@ class AdminTest extends TestCase
         $this->actingAs($admin, 'admin')->getJson('/api/admin/analytics/sales?days=30')
             ->assertOk()
             ->assertJsonStructure(['data' => ['gross', 'discounts', 'refunds', 'net', 'orders', 'series', 'byBrand', 'byCategory', 'topProducts', 'topCustomers', 'condition']]);
+    }
+
+    public function test_uploaded_images_can_be_fetched_back_for_editing(): void
+    {
+        Storage::fake('public');
+        $admin = $this->staff();
+
+        $path = $this->actingAs($admin, 'admin')
+            ->post('/api/admin/uploads', ['file' => UploadedFile::fake()->image('phone.jpg', 800, 800), 'folder' => 'products'], ['Accept' => 'application/json'])
+            ->assertCreated()
+            ->json('data.path');
+
+        $this->actingAs($admin, 'admin')->get('/api/admin/uploads/file?path='.urlencode($path))->assertOk();
+        $this->actingAs($admin, 'admin')->getJson('/api/admin/uploads/file?path='.urlencode('../.env'))->assertUnprocessable();
+        $this->actingAs($admin, 'admin')->getJson('/api/admin/uploads/file?path=uploads/products/missing.jpg')->assertNotFound();
     }
 }
