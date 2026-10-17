@@ -174,6 +174,7 @@ Route::prefix('admin')->group(function () {
         $crud('categories', Admin\CategoryController::class, 'categories.manage');
         $crud('brands', Admin\BrandController::class, 'categories.manage');
         Route::post('uploads', [Admin\UploadController::class, 'store'])->middleware('permission:products.manage|content.manage,admin');
+        Route::get('uploads/file', [Admin\UploadController::class, 'show'])->middleware('permission:products.manage|content.manage,admin');
 
         Route::post('inventory/adjust', [Admin\StockMovementController::class, 'adjust'])->middleware('permission:inventory.manage,admin');
         $crud('stock-movements', Admin\StockMovementController::class, 'inventory.manage');

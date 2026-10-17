@@ -1,3 +1,4 @@
+import { MaintenanceGate } from "@/components/layout/maintenance-gate";
 import { Suspense } from "react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter, WhatsAppButton } from "@/components/layout/site-footer";
@@ -8,7 +9,7 @@ import { CompareTray } from "@/components/shop/compare-tray";
 
 export default function ShopLayout({ children }: LayoutProps<"/[lang]">) {
   return (
-    <>
+    <MaintenanceGate>
       <SiteHeader />
       <main className="flex-1 pb-16 md:pb-0">{children}</main>
       <SiteFooter />
@@ -21,6 +22,6 @@ export default function ShopLayout({ children }: LayoutProps<"/[lang]">) {
       <Suspense fallback={null}>
         <MobileTabBar />
       </Suspense>
-    </>
+    </MaintenanceGate>
   );
 }

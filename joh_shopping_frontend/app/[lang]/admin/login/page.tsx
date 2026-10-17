@@ -13,10 +13,7 @@ import { useAdminAuth } from "@/stores";
 
 /** Demo logins from the seeded database; hide on a live store with NEXT_PUBLIC_SHOW_DEMO_ACCOUNTS=false. */
 const SHOW_DEMO = process.env.NEXT_PUBLIC_SHOW_DEMO_ACCOUNTS !== "false";
-const DEMO = [
-  { role: "Super Admin", email: "admin@johshopping.co.tz", password: "Admin@123" },
-  { role: "Sales", email: "sales@johshopping.co.tz", password: "Sales@123" },
-];
+const DEMO = [{ role: "Super Admin", email: "support@johshopping.com", password: "Admin@123" }];
 
 export default function AdminLoginPage() {
   const { t } = useT();

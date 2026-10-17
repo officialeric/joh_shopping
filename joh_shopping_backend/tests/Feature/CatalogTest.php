@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\StoreCatalogSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -81,5 +83,20 @@ class CatalogTest extends TestCase
         $this->assertDatabaseHas('contact_messages', ['phone' => '+255777000111', 'status' => 'new']);
         $this->assertDatabaseCount('subscribers', 1);
         $this->assertDatabaseHas('stock_alerts', ['product_id' => $product->id]);
+    }
+
+    public function test_the_clean_seed_has_a_starter_catalog_and_banners(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+        $this->seed(StoreCatalogSeeder::class); // re-running is a no-op
+
+        $perCategory = Product::query()->selectRaw('category_id, COUNT(*) as n')->groupBy('category_id')->pluck('n', 'category_id');
+        $this->assertCount(7, $perCategory);
+        $this->assertTrue($perCategory->every(fn (int $n): bool => $n >= 4), $perCategory->toJson());
+        $this->assertSame(count(StoreCatalogSeeder::PRODUCTS), Product::count());
+        $this->assertSame(0, (int) Product::sum('sold'));
+
+        $banners = $this->getJson('/api/bootstrap')->assertOk()->json('data.banners');
+        $this->assertEqualsCanonicalizing(['hero', 'promo', 'category'], array_values(array_unique(array_column($banners, 'placement'))));
     }
 }

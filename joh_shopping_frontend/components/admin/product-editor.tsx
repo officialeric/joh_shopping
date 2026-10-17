@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowLeft, ImagePlus, Plus, Sparkles, Trash2, X } from "lucide-react";
+import { ImageManager } from "@/components/admin/image-manager";
+import { ArrowLeft, Plus, Sparkles, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import type { ColorOption, Product, ProductTag, ProductVariant } from "@/types";
@@ -10,7 +11,7 @@ import { Checkbox, Field, Input, Label, NativeSelect, Textarea } from "@/compone
 import { Link } from "@/components/ui/link";
 import { Badge, Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/primitives";
 import { Panel } from "@/components/admin/widgets";
-import { saveProduct, uploadImage } from "@/lib/api/admin";
+import { saveProduct } from "@/lib/api/admin";
 import { apiErrorMessage, apiFieldErrors } from "@/lib/api/errors";
 import { useAdminAll, useInvalidateAdmin } from "@/lib/api/hooks";
 import { useLocalizedRouter, useT } from "@/lib/i18n/client";
@@ -71,7 +72,6 @@ export function ProductEditor({ initial, isNew }: { initial: Product; isNew?: bo
   const { data: brands = [] } = useAdminAll("brands");
   const { data: categories = [] } = useAdminAll("categories");
   const { data: attributes = [] } = useAdminAll("attributes");
-  const [uploading, setUploading] = useState(false);
   const storageOptions = attributes.filter((a) => a.type === "storage").map((a) => a.value);
   const ramOptions = attributes.filter((a) => a.type === "ram").map((a) => a.value);
   const brandId = product.brandId || brands[0]?.id || "";
@@ -496,51 +496,8 @@ export function ProductEditor({ initial, isNew }: { initial: Product; isNew?: bo
 
         <TabsContent value="media">
           <Panel>
-            <label className="flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border bg-muted/40 px-6 py-12 text-center transition hover:border-primary/50 hover:bg-primary-soft/20">
-              <ImagePlus className="size-10 text-primary" />
-              <p className="mt-3 max-w-md text-sm text-muted-foreground">{p.mediaHint}</p>
-              <input
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                multiple
-                className="hidden"
-                disabled={uploading}
-                onChange={async (e) => {
-                  const files = Array.from(e.target.files ?? []).filter((f) => f.size <= 5 * 1024 * 1024);
-                  e.target.value = "";
-                  if (!files.length) return;
-                  setUploading(true);
-                  try {
-                    const urls = await Promise.all(files.map((f) => uploadImage(f, "products")));
-                    setProduct((cur) => ({ ...cur, images: [...cur.images, ...urls] }));
-                  } catch (err) {
-                    toast.error(apiErrorMessage(err, t));
-                  } finally {
-                    setUploading(false);
-                  }
-                }}
-              />
-            </label>
-            {product.images.length > 0 ? (
-              <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5">
-                {product.images.map((src, i) => (
-                  <div key={i} className="group relative aspect-square overflow-hidden rounded-xl border border-border">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- uploaded photo served from the API's storage */}
-                    <img src={src} alt="" className="size-full object-cover" />
-                    <button
-                      onClick={() => set({ images: product.images.filter((_, j) => j !== i) })}
-                      className="absolute top-1.5 right-1.5 hidden rounded-full bg-black/70 p-1 text-white group-hover:block"
-                      aria-label={t.admin.common.delete}
-                    >
-                      <X className="size-3.5" />
-                    </button>
-                    {i === 0 && <Badge className="absolute bottom-1.5 left-1.5">Cover</Badge>}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="mt-4 text-center text-xs text-muted-foreground">{p.mediaFallback}</p>
-            )}
+            <ImageManager images={product.images} onChange={(update) => setProduct((cur) => ({ ...cur, images: update(cur.images) }))} />
+            {product.images.length === 0 && <p className="mt-4 text-center text-xs text-muted-foreground">{p.mediaFallback}</p>}
           </Panel>
         </TabsContent>
 
@@ -558,7 +515,7 @@ export function ProductEditor({ initial, isNew }: { initial: Product; isNew?: bo
             </Panel>
             <Panel title={p.seoPreview}>
               <div className="rounded-xl border border-border bg-white p-4 dark:bg-neutral-900">
-                <p className="text-xs text-[#1a7f37]">johshopping.co.tz › products › {product.slug || slugify(product.name)}</p>
+                <p className="text-xs text-[#1a7f37]">johshopping.com › products › {product.slug || slugify(product.name)}</p>
                 <p className="mt-1 text-lg text-[#1a0dab] dark:text-[#8ab4f8]">{product.seo.title || `${product.name} | Joh Shopping`}</p>
                 <p className="mt-1 line-clamp-2 text-sm text-neutral-600 dark:text-neutral-400">{product.seo.description || product.shortDescription.en}</p>
               </div>

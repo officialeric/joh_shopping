@@ -4,8 +4,10 @@ import { ProductArt } from "@/components/brand/product-art";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/components/ui/link";
 import { SectionHeading } from "@/components/ui/feedback";
+import { BannerVisual } from "@/components/shop/banner-visual";
 import { HeroCarousel } from "@/components/shop/hero-carousel";
 import { FlashSaleSection, TrendingTabs } from "@/components/shop/home-sections";
+import { ProductImage } from "@/components/shop/product-card";
 import { ProductRail } from "@/components/shop/product-rail";
 import { Rating } from "@/components/ui/primitives";
 import { getShop } from "@/lib/data/server";
@@ -19,6 +21,8 @@ export default async function HomePage() {
   const heroBanners = banners.filter((b) => b.placement === "hero").sort((a, b) => a.sortOrder - b.sortOrder);
   const promoBanners = banners.filter((b) => b.placement === "promo");
   const usedPhones = products.filter((p) => p.condition === "used");
+  /** A product with a real photo to stand for its category (the illustration otherwise). */
+  const categoryPhoto = (categoryId: string) => products.find((p) => p.categoryId === categoryId && p.images.length > 0);
 
   const trust = [
     { icon: BadgeCheck, title: h.trust.genuineTitle, desc: h.trust.genuineDesc },
@@ -28,25 +32,48 @@ export default async function HomePage() {
   ];
 
   const budgets = [
-    { label: h.budgets.entry, desc: h.budgets.entryDesc, q: "maxPrice=500000", product: "p-spark30" },
-    { label: h.budgets.mid, desc: h.budgets.midDesc, q: "minPrice=500000&maxPrice=1500000", product: "p-rn14p" },
-    { label: h.budgets.upper, desc: h.budgets.upperDesc, q: "minPrice=1500000&maxPrice=3000000", product: "p-pixel9p" },
-    { label: h.budgets.premium, desc: h.budgets.premiumDesc, q: "minPrice=3000000", product: "p-ip16pm" },
+    {
+      label: h.budgets.entry,
+      desc: h.budgets.entryDesc,
+      q: "maxPrice=500000",
+      product: "p-spark30",
+    },
+    {
+      label: h.budgets.mid,
+      desc: h.budgets.midDesc,
+      q: "minPrice=500000&maxPrice=1500000",
+      product: "p-rn14p",
+    },
+    {
+      label: h.budgets.upper,
+      desc: h.budgets.upperDesc,
+      q: "minPrice=1500000&maxPrice=3000000",
+      product: "p-ip15-used",
+    },
+    {
+      label: h.budgets.premium,
+      desc: h.budgets.premiumDesc,
+      q: "minPrice=3000000",
+      product: "p-ip16pm",
+    },
   ];
 
   return (
-    <div className="space-y-20 pt-4 sm:space-y-24 sm:pt-6">
+    // Phones get tighter spacing, a short hero, slim trust/category strips and no promo
+    // banners, so shoppers reach products within the first screen.
+    <div className="space-y-12 pt-3 sm:space-y-24 sm:pt-6">
+      <h1 className="sr-only">{`${t.common.brand.name}: ${t.common.brand.tagline}`}</h1>
       <section className="container-page">
-        <HeroCarousel banners={heroBanners} />
-        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {heroBanners.length > 0 && <HeroCarousel banners={heroBanners} />}
+        <div className="scrollbar-none -mx-4 mt-3 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:mt-4 sm:grid sm:grid-cols-2 sm:gap-3 sm:px-0 lg:grid-cols-4">
           {trust.map((item) => (
-            <div key={item.title} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
-                <item.icon className="size-5" />
+            <div key={item.title} className="flex shrink-0 items-center gap-2 rounded-full border border-border bg-card py-1.5 pr-3.5 pl-1.5 sm:gap-3 sm:rounded-2xl sm:p-4">
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary sm:size-11 sm:rounded-xl">
+                <item.icon className="size-3.5 sm:size-5" />
               </span>
               <div className="min-w-0">
-                <p className="text-sm font-semibold">{item.title}</p>
-                <p className="truncate text-xs text-muted-foreground">{item.desc}</p>
+                <p className="text-xs font-semibold whitespace-nowrap sm:text-sm">{item.title}</p>
+                <p className="hidden truncate text-xs text-muted-foreground sm:block">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -54,8 +81,18 @@ export default async function HomePage() {
       </section>
 
       <section className="container-page">
-        <SectionHeading eyebrow={h.categoriesEyebrow} title={h.categoriesTitle} />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+        <SectionHeading eyebrow={h.categoriesEyebrow} title={h.categoriesTitle} className="hidden sm:flex" />
+        <div className="scrollbar-none -mx-4 flex gap-4 overflow-x-auto px-4 sm:hidden">
+          {categories.map((c) => (
+            <Link key={c.id} href={`/products?category=${c.slug}`} className="flex w-16 shrink-0 flex-col items-center gap-1.5 text-center">
+              <span className="flex size-14 items-center justify-center rounded-2xl border border-border bg-card text-primary">
+                <CategoryIcon name={c.icon} className="size-6" />
+              </span>
+              <span className="line-clamp-2 text-[11px] leading-tight font-medium">{c.name[locale]}</span>
+            </Link>
+          ))}
+        </div>
+        <div className="hidden grid-cols-2 gap-3 sm:grid sm:grid-cols-4 lg:grid-cols-7">
           {categories.map((c, i) => (
             <Link
               key={c.id}
@@ -63,7 +100,15 @@ export default async function HomePage() {
               className={`group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-4 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lift ${i === 0 ? "col-span-2 sm:col-span-2 lg:col-span-1" : ""}`}
             >
               <div className="relative mb-3 aspect-square rounded-xl bg-surface p-3">
-                <ProductArt kind={c.art} color={["#2b2b2d", "#b5122a", "#f6f6f4", "#1e1f22", "#f5f5f3", "#1f2023", "#e6eef3"][i]} className="transition-transform duration-500 group-hover:scale-105" />
+                {categoryPhoto(c.id) ? (
+                  <ProductImage product={categoryPhoto(c.id)!} className="transition-transform duration-500 group-hover:scale-105" />
+                ) : (
+                  <ProductArt
+                    kind={c.art}
+                    color={["#2b2b2d", "#b5122a", "#f6f6f4", "#1e1f22", "#f5f5f3", "#1f2023", "#e6eef3"][i]}
+                    className="transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <CategoryIcon name={c.icon} className="size-4 text-primary" />
@@ -85,9 +130,8 @@ export default async function HomePage() {
         <TrendingTabs featured={byTag("featured", 8).concat(byTag("trending", 8)).slice(0, 8)} fresh={newArrivals(8)} best={bestSellers(8)} deals={deals(8)} />
       </section>
 
-      <section className="container-page grid gap-4 md:grid-cols-2">
+      <section className="container-page hidden gap-4 md:grid md:grid-cols-2">
         {promoBanners.map((b) => {
-          const product = b.productId ? getProduct(b.productId) : undefined;
           const dark = b.theme === "dark";
           return (
             <Link
@@ -103,11 +147,9 @@ export default async function HomePage() {
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
-              {product && (
-                <div className="absolute -right-4 bottom-0 aspect-square h-[110%] transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3">
-                  <ProductArt kind={product.art.kind} camera={product.art.camera} color={product.colors[0]?.hex} />
-                </div>
-              )}
+              <div className="absolute -right-4 bottom-0 aspect-square h-[110%] transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3">
+                <BannerVisual banner={b} />
+              </div>
             </Link>
           );
         })}
@@ -123,15 +165,15 @@ export default async function HomePage() {
               <Link
                 key={b.label}
                 href={`/products?category=smartphones&${b.q}`}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 transition hover:border-primary/40 hover:shadow-lift"
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 transition hover:border-primary/40 hover:shadow-lift sm:p-5"
               >
-                <div className="pointer-events-none absolute -right-6 -bottom-8 size-40 opacity-90 transition-transform duration-500 group-hover:-translate-y-2">
-                  <ProductArt kind="phone" camera={p.art.camera} color={p.colors[0]?.hex} view="back" />
+                <div className="pointer-events-none absolute -right-6 -bottom-8 hidden size-40 opacity-90 transition-transform duration-500 group-hover:-translate-y-2 sm:block">
+                  <ProductImage product={p} view="back" />
                 </div>
-                <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">0{i + 1}</span>
-                <p className="mt-6 font-display text-xl font-semibold sm:text-2xl">{b.label}</p>
-                <p className="mt-1 max-w-[60%] text-sm text-muted-foreground">{b.desc}</p>
-                <ArrowRight className="mt-6 size-5 text-primary transition-transform group-hover:translate-x-1" />
+                <span className="hidden text-xs font-semibold tracking-wider text-muted-foreground uppercase sm:inline">0{i + 1}</span>
+                <p className="font-display text-base font-semibold sm:mt-6 sm:text-2xl">{b.label}</p>
+                <p className="mt-1 text-xs text-muted-foreground sm:max-w-[60%] sm:text-sm">{b.desc}</p>
+                <ArrowRight className="mt-6 hidden size-5 text-primary transition-transform group-hover:translate-x-1 sm:block" />
               </Link>
             );
           })}
@@ -139,15 +181,15 @@ export default async function HomePage() {
       </section>
 
       <section className="container-page">
-        <div className="grid items-center gap-10 overflow-hidden rounded-[28px] border border-border bg-card p-6 sm:p-10 lg:grid-cols-2 lg:p-14">
+        <div className="grid items-center gap-6 overflow-hidden rounded-3xl border border-border bg-card p-4 sm:gap-10 sm:rounded-[28px] sm:p-10 lg:grid-cols-2 lg:p-14">
           <div>
             <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-soft-foreground">
               <Sparkles className="size-3.5" />
               {h.usedEyebrow}
             </p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">{h.usedTitle}</h2>
-            <p className="mt-4 text-muted-foreground">{h.usedDesc}</p>
-            <ol className="mt-8 space-y-5">
+            <h2 className="text-2xl font-semibold text-balance sm:text-4xl">{h.usedTitle}</h2>
+            <p className="mt-4 hidden text-muted-foreground sm:block">{h.usedDesc}</p>
+            <ol className="mt-8 hidden space-y-5 sm:block">
               {h.usedSteps.map((s, i) => (
                 <li key={s.title} className="flex gap-4">
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary font-display text-sm font-semibold text-secondary-foreground">{i + 1}</span>
@@ -158,7 +200,7 @@ export default async function HomePage() {
                 </li>
               ))}
             </ol>
-            <Button size="lg" className="mt-8" asChild>
+            <Button size="lg" className="mt-8 hidden sm:inline-flex" asChild>
               <Link href="/products?condition=used">
                 {h.usedCta}
                 <ArrowRight />
@@ -169,7 +211,7 @@ export default async function HomePage() {
             {usedPhones.slice(0, 4).map((p) => (
               <Link key={p.id} href={`/products/${p.slug}`} className="group rounded-2xl bg-surface p-4 transition hover:shadow-lift">
                 <div className="aspect-square">
-                  <ProductArt kind="phone" camera={p.art.camera} color={p.colors[0]?.hex} view="back" className="transition-transform duration-500 group-hover:scale-105" />
+                  <ProductImage product={p} view="back" className="transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="mt-3 flex items-center justify-between gap-2">
                   <span className="truncate text-sm font-medium">{p.name.replace(" (Used)", "")}</span>
@@ -217,7 +259,7 @@ export default async function HomePage() {
           <div>
             <p className="mb-2 text-xs font-semibold tracking-[0.18em] text-primary uppercase">{h.testimonialsEyebrow}</p>
             <h2 className="text-3xl font-semibold text-balance">{h.testimonialsTitle}</h2>
-            <dl className="mt-8 grid grid-cols-2 gap-4">
+            <dl className="mt-8 hidden grid-cols-2 gap-4 sm:grid">
               {[
                 ["25K+", h.statsCustomers],
                 ["26", h.statsRegions],
@@ -231,9 +273,9 @@ export default async function HomePage() {
               ))}
             </dl>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:px-0">
             {h.testimonials.map((item) => (
-              <figure key={item.name} className="flex flex-col rounded-2xl border border-border bg-card p-6">
+              <figure key={item.name} className="flex w-[80%] shrink-0 snap-start flex-col rounded-2xl border border-border bg-card p-5 sm:p-6 md:w-auto">
                 <Quote className="size-7 text-primary/30" />
                 <Rating value={5} className="mt-3" />
                 <blockquote className="mt-3 flex-1 text-sm leading-relaxed">{item.text}</blockquote>

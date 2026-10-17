@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ReturnRequest;
 use App\Models\Serial;
 use App\Models\User;
 use App\Notifications\OrderStatusChanged;
@@ -158,5 +159,51 @@ class OrderLifecycleTest extends TestCase
             ->assertJsonPath('data.status', 'paid')
             ->assertJsonPath('data.orderStatus', 'confirmed');
         $this->postJson('/api/payments/webhooks/nope', ['reference' => $reference, 'status' => 'paid'])->assertNotFound();
+    }
+
+    public function test_marking_a_return_refunded_refunds_the_payment_and_lowers_revenue(): void
+    {
+        $order = $this->placeOrder();
+        $order->update(['status' => 'delivered']);
+        $admin = $this->staff();
+        $revenue = fn (): int => $this->actingAs($admin, 'admin')->getJson('/api/admin/analytics/dashboard?days=30')->json('data.revenue.value');
+        $this->assertSame($order->total, $revenue());
+
+        $item = $order->items()->firstOrFail();
+        $return = ReturnRequest::create([
+            'number' => 'RMA-1', 'type' => 'return', 'order_id' => $order->id, 'user_id' => $this->customer->id,
+            'customer_name' => $order->customer_name, 'product_name' => "{$item->name} ({$item->variant_label})",
+            'reason' => 'Changed mind', 'details' => '-', 'status' => 'approved', 'resolution' => 'refund',
+        ]);
+
+        $this->actingAs($admin, 'admin')->getJson("/api/admin/returns/{$return->id}")
+            ->assertJsonPath('data.suggestedRefund', 100_000)
+            ->assertJsonPath('data.refundable', $order->total);
+
+        $this->actingAs($admin, 'admin')->patchJson("/api/admin/returns/{$return->id}", ['status' => 'refunded'])
+            ->assertOk()
+            ->assertJsonPath('data.refundAmount', 100_000);
+
+        $this->assertDatabaseHas('payments', ['order_id' => $order->id, 'status' => 'partially_refunded', 'refunded' => 100_000]);
+        $this->assertSame($order->total - 100_000, $revenue());
+
+        // Saving it again does not refund twice.
+        $this->actingAs($admin, 'admin')->patchJson("/api/admin/returns/{$return->id}", ['status' => 'refunded'])->assertOk();
+        $this->assertSame(100_000, $order->payments()->value('refunded'));
+    }
+
+    public function test_an_unpaid_order_cannot_be_refunded_from_a_return(): void
+    {
+        config(['payments.drivers.sandbox.autoConfirm' => false]);
+        $order = $this->placeOrder();
+        $return = ReturnRequest::create([
+            'number' => 'RMA-2', 'type' => 'return', 'order_id' => $order->id, 'customer_name' => 'A',
+            'product_name' => 'X', 'reason' => 'r', 'details' => '-', 'status' => 'approved',
+        ]);
+
+        $this->actingAs($this->staff(), 'admin')->patchJson("/api/admin/returns/{$return->id}", ['status' => 'refunded'])
+            ->assertUnprocessable()
+            ->assertJsonPath('errors.refundAmount.0', 'refund_unpaid');
+        $this->assertSame('approved', $return->fresh()->status);
     }
 }

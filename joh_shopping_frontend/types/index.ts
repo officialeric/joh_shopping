@@ -276,6 +276,12 @@ export interface ReturnRequest {
   details: string;
   status: ReturnStatus;
   resolution?: "refund" | "replacement" | "repair";
+  /** TZS refunded to the customer when the return was marked refunded. */
+  refundAmount?: number;
+  /** Staff only: what is still refundable on the order's payment. */
+  refundable?: number;
+  /** Staff only: the returned item's price, capped at `refundable`. */
+  suggestedRefund?: number;
   createdAt: string;
   updatedAt: string;
 }

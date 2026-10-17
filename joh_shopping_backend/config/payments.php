@@ -20,10 +20,19 @@ return [
 
     'card_driver' => env('PAYMENTS_CARD_DRIVER', 'sandbox'),
 
+    /*
+    | The sandbox never collects money. On production it is off unless you opt
+    | in: card and mobile money are hidden at checkout until a real gateway is
+    | configured (cash on delivery still works when enabled in Settings).
+    */
+
+    'allow_sandbox' => (bool) env('PAYMENTS_ALLOW_SANDBOX', env('APP_ENV') !== 'production'),
+
     'drivers' => [
         'sandbox' => [
             'class' => SandboxGateway::class,
-            'autoConfirm' => (bool) env('PAYMENTS_SANDBOX_AUTO_CONFIRM', true),
+            // Marks sandbox payments paid at once. Never true on a live store.
+            'autoConfirm' => (bool) env('PAYMENTS_SANDBOX_AUTO_CONFIRM', env('APP_ENV') !== 'production'),
         ],
     ],
 

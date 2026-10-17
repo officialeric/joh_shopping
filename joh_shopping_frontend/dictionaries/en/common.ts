@@ -5,6 +5,12 @@ export const common: typeof sw = {
     name: "Joh Shopping",
     tagline: "Genuine phones. Premium accessories. Fair prices.",
   },
+  maintenance: {
+    title: "We're improving our store",
+    body: "Joh Shopping is briefly down for maintenance. Please check back shortly.",
+    contact: "Need help right now? Reach us:",
+    staffBanner: "Maintenance mode is on. Customers see the maintenance page; you can see the store because you're signed in as staff.",
+  },
   nav: {
     home: "Home",
     shop: "Shop",
@@ -407,6 +413,7 @@ export const common: typeof sw = {
     order_not_delivered: "You can return items once the order is delivered.",
     already_reviewed: "You've already reviewed this product.",
     invalid_amount: "Invalid amount.",
+    refund_unpaid: "This order has not been paid, so there is nothing to refund.",
     duplicate: "This IMEI is already registered.",
     imei_taken: "This IMEI was already sold on another order.",
     sku_taken: "This SKU is used by another product.",

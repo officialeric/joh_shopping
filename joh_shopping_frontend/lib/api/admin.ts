@@ -13,7 +13,7 @@ import type {
   StockMovement,
   StoreSettings,
 } from "@/types";
-import { api, apiData } from "./core";
+import { api, apiData, API_URL } from "./core";
 
 /**
  * Back-office endpoints (/api/admin/*, admin guard + Spatie permissions).
@@ -104,9 +104,20 @@ export async function uploadImage(file: File, folder: "products" | "banners" | "
   return (await apiData<{ url: string }>("/admin/uploads", { method: "POST", body: form })).url;
 }
 
+/**
+ * Load a saved photo as a Blob so the image editor can crop it again. Our own
+ * uploads go through the API (which sends CORS headers); other URLs are fetched as is.
+ */
+export async function fetchUploadedImage(url: string): Promise<Blob> {
+  const path = url.match(/\/storage\/(uploads\/[^?#]+)/)?.[1];
+  const res = path ? await fetch(`${API_URL.replace(/\/$/, "")}/admin/uploads/file?path=${encodeURIComponent(path)}`, { credentials: "include" }) : await fetch(url);
+  if (!res.ok) throw new Error(`image_${res.status}`);
+  return res.blob();
+}
+
 // ---------------------------------------------------------------- Returns, reviews, messages, staff
 
-export function updateReturn(id: string, patch: Partial<Pick<ReturnRequest, "status" | "resolution">>): Promise<ReturnRequest> {
+export function updateReturn(id: string, patch: Partial<Pick<ReturnRequest, "status" | "resolution" | "refundAmount">>): Promise<ReturnRequest> {
   return apiData<ReturnRequest>(`/admin/returns/${id}`, { method: "PATCH", body: patch });
 }
 

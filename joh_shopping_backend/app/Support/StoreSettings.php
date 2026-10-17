@@ -22,7 +22,7 @@ class StoreSettings
     {
         return [
             'storeName' => 'Joh Shopping',
-            'email' => 'johshopping@gmail.com',
+            'email' => 'support@johshopping.com',
             'phone' => '+255743880848',
             'whatsapp' => '+255743880848',
             'address' => 'Machinga Complex, Dodoma',
@@ -83,9 +83,23 @@ class StoreSettings
         return self::all();
     }
 
+    /**
+     * Switched on in Settings and backed by a driver that can collect money.
+     */
     public static function paymentMethodEnabled(string $method): bool
     {
-        return (bool) (self::all()['paymentMethods'][$method] ?? false);
+        return (bool) (self::all()['paymentMethods'][$method] ?? false) && self::hasUsableDriver($method);
+    }
+
+    private static function hasUsableDriver(string $method): bool
+    {
+        if ($method === 'cod' || config('payments.allow_sandbox')) {
+            return true;
+        }
+
+        $driver = $method === 'card' ? config('payments.card_driver') : config('payments.mobile_money_driver');
+
+        return $driver !== 'sandbox';
     }
 
     /**
@@ -96,6 +110,7 @@ class StoreSettings
     public static function public(): array
     {
         $all = self::all();
+        $all['paymentMethods'] = collect($all['paymentMethods'])->map(fn (bool $on, string $method): bool => $on && self::hasUsableDriver($method))->all();
 
         return collect($all)->only([
             'storeName', 'email', 'phone', 'whatsapp', 'address', 'currency', 'vatRate',

@@ -64,6 +64,14 @@ return [
     'seed_demo_data' => (bool) env('SEED_DEMO_DATA', false),
 
     /*
+    | The Super Admin created by `php artisan db:seed`.
+    */
+
+    'admin_email' => env('ADMIN_EMAIL', 'support@johshopping.com'),
+
+    'admin_password' => env('ADMIN_PASSWORD'),
+
+    /*
     | Admin edits ping the storefront so its cached catalog refreshes at once.
     | Leave the secret empty to rely on the storefront's 1-minute refresh.
     */
